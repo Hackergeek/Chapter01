@@ -5,14 +5,11 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-
-import com.sample.breakpad.BreakpadInit;
-
-import java.io.File;
-
+import android.util.Log;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.sample.breakpad.BreakpadInit;
+import java.io.File;
 
 
 public class MainActivity extends Activity {
@@ -42,13 +39,10 @@ public class MainActivity extends Activity {
 
         findViewById(R.id.crash_btn)
                 .setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                initBreakPad();
-                                crash();
-                                // copy core dump to sdcard
-                            }
+                        view -> {
+                            initBreakPad();
+                            crash();
+                            // copy core dump to sdcard
                         });
     }
 
@@ -63,6 +57,7 @@ public class MainActivity extends Activity {
                 externalReportPath.mkdirs();
             }
         }
+        Log.d("TAG", "initBreakPad: " + externalReportPath.getAbsolutePath());
         BreakpadInit.initBreakpad(externalReportPath.getAbsolutePath());
     }
 
